@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {axiosWithAuth} from '../utils/axiosWithAuth';
+
 
 const initialColor = {
   color: "",
   code: { hex: "" }
 };
 
-const ColorList = ({ colors, updateColors }) => {
+const ColorList = ({ colors, updateColors, setDependency }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
@@ -21,10 +23,29 @@ const ColorList = ({ colors, updateColors }) => {
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
+    axiosWithAuth()
+    .put(`/colors/${colorToEdit.id}`, colorToEdit)
+    .then((res) => {
+      // console.log('succesful put', res)
+      setDependency(true)
+      // window.location.href='/bubble-page'
+    })
+    .catch((res) => {
+      console.log('error in put', res)
+    })
   };
 
   const deleteColor = color => {
     // make a delete request to delete this color
+    axiosWithAuth()
+    .delete(`/colors/${colorToEdit.id}`, colorToEdit)
+    .then((res) => {
+      setDependency(true)
+      // console.log('succesful deletion', res)
+    })
+    .catch((res) => {
+      console.log('failed delete', res)
+    })
   };
 
   return (
@@ -36,6 +57,7 @@ const ColorList = ({ colors, updateColors }) => {
             <span>
               <span className="delete" onClick={e => {
                     e.stopPropagation();
+                    // editColor(color);
                     deleteColor(color)
                   }
                 }>
