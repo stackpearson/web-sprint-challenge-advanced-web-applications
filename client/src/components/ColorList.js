@@ -65,12 +65,14 @@ const ColorList = ({ colors, updateColors, setDependency }) => {
       <p>colors</p>
       <ul>
         {colors.map(color => (
-          <li key={color.color} onClick={() => editColor(color)}>
+          <li className={editing ? 'color-animation' : 'static-color'} key={color.color} onClick={() => editColor(color)}>
             <span>
-              <span className="delete" onClick={e => {
+              <span className={editing ? 'delete' : 'hide-edit'} onClick={e => {
                     e.stopPropagation();
                     // editColor(color);
-                    deleteColor(color)
+                    deleteColor(color);
+                    setEditing(false)
+                    
                   }
                 }>
                   x

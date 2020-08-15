@@ -53,6 +53,10 @@ body,
   color: rgb(216, 87, 87);
 }
 
+.hide-edit {
+  visibility: hidden;
+}
+
 .color-box {
   height: 16px;
   width: 16px;
@@ -97,3 +101,13 @@ form {
     margin-top: 16px;
   }
 }
+
+.color-animation {
+transition: background-color, 1s ease;
+background-color: grey;
+margin: 10px 0px
+}
+.color-animation:hover {
+  background-color: blue;
+  }
+
