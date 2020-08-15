@@ -48,6 +48,18 @@ const ColorList = ({ colors, updateColors, setDependency }) => {
     })
   };
 
+  const addColor = color => {
+    axiosWithAuth()
+    .post('/colors', colorToEdit)
+    .then((res) => {
+      console.log('succesful color addition', res)
+      setDependency(true)
+    })
+    .catch((res) => {
+      console.log('failed color addition', res)
+    })
+  }
+
   return (
     <div className="colors-wrap">
       <p>colors</p>
@@ -102,8 +114,41 @@ const ColorList = ({ colors, updateColors, setDependency }) => {
           </div>
         </form>
       )}
-      <div className="spacer" />
+
       {/* stretch - build another form here to add a color */}
+
+      <form onSubmit={addColor}>
+        <legend>Add New Color</legend>
+
+        <label> New Color Name:
+        <input
+                onChange={e =>
+                  setColorToEdit({ ...colorToEdit, color: e.target.value })
+                }
+                value={colorToEdit.color}
+              />
+        </label>
+
+        <label> New Hex Code:
+        <input
+               onChange={e =>
+                setColorToEdit({
+                  ...colorToEdit,
+                  code: { hex: e.target.value }
+                })
+              }
+              value={colorToEdit.code.hex}
+              />
+        </label>
+        <div className="button-row">
+            <button type="submit">Add Color</button>
+            <button onClick={() => setEditing(false)}>cancel</button>
+          </div>
+      </form>
+      <div className="spacer" />
+      
+      
+
     </div>
   );
 };
